@@ -1,4 +1,4 @@
-from sklearn.svm import SVC
+from sklearn.svm import SVR
 import argparse
 import os
 import numpy as np
@@ -11,7 +11,7 @@ from azureml.core.run import Run
 from azureml.data.dataset_factory import TabularDatasetFactory
 
 
-ds = TabularDatasetFactory.from_delimited_files("https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv")
+ds = TabularDatasetFactory.from_delimited_files("http://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv")
 
 def log1(x):
     return math.log(x+1)
@@ -28,7 +28,7 @@ def clean_data(data):
     seasons = pd.get_dummies(dataset['month'])
     dataset = pd.concat([dataset, seasons], axis = 1)
     dataset = dataset.drop(['month'],axis=1)
-    dataset['area'] = new_dataset['area'].apply(ln1)
+    dataset['area'] = dataset['area'].apply(log1)
     
     scaler = StandardScaler()
     features = ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'] 
@@ -41,13 +41,14 @@ def clean_data(data):
 
 x, y = clean_data(ds)
 
-x_train, x_test, y_train, y_test = train_test_split(x,y,stratify=y,test_size=0.2,random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2,random_state=0)
 
 run = Run.get_context()
 
 def score_model(model, X, Y):
     y_pred = model.predict(X)
-    return mean_absolute_error(np.exp(y_pred),np.exp(Y))
+    y_range = max(Y)-min(Y)
+    return mean_absolute_error(np.exp(y_pred),np.exp(Y))/y_range
     
 
 def main():
@@ -68,8 +69,8 @@ def main():
     os.makedirs('outputs', exist_ok=True)
     joblib.dump(model, 'outputs/model.joblib')
 
-    mae = score_model(model, x_test, y_test)
-    run.log("Mean Absolute Error", np.float(mae))
+    nmae = score_model(model, x_test, y_test)
+    run.log("Normalized Mean Absolute Error", np.float(nmae))
 
 if __name__ == '__main__':
     main()
