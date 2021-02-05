@@ -5,10 +5,11 @@ import numpy as np
 from sklearn.metrics import mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 import joblib
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 import pandas as pd
 from azureml.core.run import Run
 from azureml.data.dataset_factory import TabularDatasetFactory
+import math
 
 
 ds = TabularDatasetFactory.from_delimited_files("http://archive.ics.uci.edu/ml/machine-learning-databases/forest-fires/forestfires.csv")
@@ -41,14 +42,13 @@ def clean_data(data):
 
 x, y = clean_data(ds)
 
-x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2,random_state=0)
+#x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2,random_state=0)
 
 run = Run.get_context()
 
 def score_model(model, X, Y):
     y_pred = model.predict(X)
-    y_range = max(Y)-min(Y)
-    return mean_absolute_error(np.exp(y_pred),np.exp(Y))/y_range
+    return mean_absolute_error(np.exp(y_pred),np.exp(Y))
     
 
 def main():
@@ -64,13 +64,13 @@ def main():
     run.log("gamma:", args.gamma)
     run.log("epsilon:", np.float(args.epsilon))
 
-    model = SVR(C=args.C, gamma=args.gamma, epsilon=args.epsilon).fit(x_train, y_train)
+    model = SVR(C=args.C, gamma=args.gamma, epsilon=args.epsilon)#.fit(x_train, y_train)
     
     os.makedirs('outputs', exist_ok=True)
     joblib.dump(model, 'outputs/model.joblib')
 
-    nmae = score_model(model, x_test, y_test)
-    run.log("Normalized Mean Absolute Error", np.float(nmae))
+    mae = cross_val_score(model, x, y, cv=5, scoring=score_model)
+    run.log("Mean Absolute Error", np.float(mae))
 
 if __name__ == '__main__':
     main()
