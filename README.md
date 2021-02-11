@@ -39,12 +39,19 @@ Settings and Configurations of AutoML:
   
 * Experiment Timeout Minutes: 30
 
-* Max Concurrent Iterations: 4 ( Same as maximum number nodes in compute cluster )
+* Max Concurrent Iterations: 4 ( Same as maximum number of nodes in compute cluster )
 
 ### Results
 * The best AutoML model is MaxAbsScaler,Gradient boosting with a Mean Absolute Error of 12.989 . The error can be further reduced by running the experiment longer and enabling Deep Learning.
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+* The AutoML run is complete and the best model is shown along with its metrics.
+  ![auto1](./Images/auto1.png)
+* The `RunDetails` widgets shows that the run is complete.
+  ![auto2](./Images/auto2.png)
+* The RunID of the best AutoML run is shown.
+  ![auto3](./Images/auto3.png)
+* Along with the primary metric, other metrics are displayed.
+  ![auto4](./Images/auto4.png)
 
 ## Hyperparameter Tuning
 The model chosen for Hyperparameter Tuning is a Support Vector Regressor(SVR). Since the dataset has many features, SVR is an appropriate choice as it works well in high dimentional spaces.
@@ -55,6 +62,9 @@ List of Hyperparameters tuned
 * gamma: kernel coefficient for RBF kernel. ('Scale','Auto')
 * epsilon: no penalty is associated in the training loss function with points predicted within a distance epsilon from the actual value. (0.1, 0.01, 0.001, 0.0001)
 
+* The parameter sampler used is RandomParameterSampling. As this sampler chooses a value for each of parameters randomly, after a certain number of runs all combinations will be tried out and the best one can be chosen.
+* The early stopping policy used is BanditPolicy. Its parameters are set such that in every alternate interval the policy is applied. This will terminate runs that are not performing well based on the slack factor. This reduces the wastage of compute resources.
+
 ### Results
 The best set of hyperparameters produced a Mean Absolute Error of 13.368 .
 * C: 1
@@ -62,7 +72,13 @@ The best set of hyperparameters produced a Mean Absolute Error of 13.368 .
 * epsilon 0.1
 The model can be further improved by trying out different kernel functions.
  
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+* The `RunDetails` widgets shows that run properties and child runs.
+ ![hdr1](./Images/hdr1.png)
+ ![hdr2](./Images/hdr2.png)
+* The best HyperDrive run with its hyperparameters and RunID is displayed.
+ ![hdr3](./Images/hdr3.png)
+* The Child runs of HyperDrive.
+ ![hdr4](./Images/hdr4.png)
 
 ## Model Deployment
 * The model created by AutoML has a slightly lower error hence, it has been chosen for deployment.
@@ -75,5 +91,16 @@ The model can be further improved by trying out different kernel functions.
 1. Create a json file with the input data
 1. Make a HTTP request to the webservice using the scoring uri to get the results.
 
+* The model has been deployed using Azure Container Instance.
+ ![aci1](./Images/aci1.png)
+* The deployed model can be accessed at the REST endpoint using a HTTP request. Application Insights has been enabled.
+ ![aci2](./Images/aci2.png)
+* The webservice is in a healthy state.
+ ![aci3](./Images/aci3.png)
+* The results from the deployed models for the two input data points.
+ ![aci4](./Images/aci4.png)
+* Logs from the deployed model are shown below.
+ ![logs](./Images/logs.png)
+ 
 ## Screen Recording
 * https://youtu.be/S_pfUnAwa64
