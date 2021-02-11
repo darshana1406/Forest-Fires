@@ -69,7 +69,8 @@ def main():
     os.makedirs('outputs', exist_ok=True)
     joblib.dump(model, 'outputs/model.joblib')
 
-    mae = cross_val_score(model, x, y, cv=5, scoring=score_model)
+    mae_list = cross_val_score(model, x, y, cv=5, scoring=score_model)
+    mae = sum(mae_list)/len(mae_list)
     run.log("Mean Absolute Error", np.float(mae))
 
 if __name__ == '__main__':
