@@ -47,16 +47,33 @@ Settings and Configurations of AutoML:
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
+The model chosen for Hyperparameter Tuning is a Support Vector Regressor(SVR). Since the dataset has many features, SVR is an appropriate choice as it works well in high dimentional spaces.
 
+List of Hyperparameters tuned
+
+* C: Inverse of regularization strength. Smaller values cause stronger regularization. (1.0, 3.0, 10.0, 100.0)
+* gamma: kernel coefficient for RBF kernel. ('Scale','Auto')
+* epsilon: no penalty is associated in the training loss function with points predicted within a distance epsilon from the actual value. (0.1, 0.01, 0.001, 0.0001)
 
 ### Results
-*TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
- b
+The best set of hyperparameters produced a Mean Absolute Error of 13.368 .
+* C: 1
+* gamma: scale
+* epsilon 0.1
+The model can be further improved by trying out different kernel functions.
+ 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 
 ## Model Deployment
-*TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
+* The model created by AutoML has a slightly lower error hence, it has been chosen for deployment.
+
+* Steps for Deployment and Interaction with the model:
+1. Register the model.
+1. Create an inference configuration. It needs two things: a script for scoring and an environment where the deployed model can run. The scoring script will take input in the form of json, feed it to the model and return the results in the form of json.
+1. Create a deployment configuration. Azure Container Instance has been chosen with a memory of 1 GB and single core.
+1. Deploy the model
+1. Create a json file with the input data
+1. Make a HTTP request to the webservice using the scoring uri to get the results.
 
 ## Screen Recording
 * https://youtu.be/S_pfUnAwa64
