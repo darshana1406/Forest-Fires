@@ -52,6 +52,8 @@ Settings and Configurations of AutoML:
   ![auto3](./Images/auto3.png)
 * Along with the primary metric, other metrics are displayed.
   ![auto4](./Images/auto4.png)
+* Parameters of the best model
+  ![auto](./Images/auto.png)
 
 ## Hyperparameter Tuning
 The model chosen for Hyperparameter Tuning is a Support Vector Regressor(SVR). Since the dataset has many features, SVR is an appropriate choice as it works well in high dimentional spaces.
