@@ -44,6 +44,13 @@ Settings and Configurations of AutoML:
 ### Results
 * The best AutoML model is MaxAbsScaler,Gradient boosting with a Mean Absolute Error of 12.989 . The error can be further reduced by running the experiment longer and enabling Deep Learning.
 
+### Future Improvements
+* Experiment Timeout Minutes can be increased which will result in better ensemble models.
+* Deep Learning can be Enabled.
+* A parameter named featurization is set to 'auto' by default. This means that the a attribute type is automatically detected and feature engineering is performed based on that. This can be improved by defining a custom featurizationConfig object which might improve the quality of the data.
+
+### Screenshots
+
 * The AutoML run is complete and the best model is shown along with its metrics.
   ![auto1](./Images/auto1.png)
 * The `RunDetails` widgets shows that the run is complete.
@@ -72,8 +79,12 @@ The best set of hyperparameters produced a Mean Absolute Error of 13.368 .
 * C: 1
 * gamma: scale
 * epsilon 0.1
-The model can be further improved by trying out different kernel functions.
- 
+
+### Future Improvements
+* The model can be further improved by trying out different kernel functions.
+* Since the 'area' column contains lots of zeroes, 'hurdle regression' based models can be tried out. A hurdle model is a class of statistical models where a random variable is modelled using two parts, the first which is the probability of attaining value 0, and the second part models the probability of the non-zero values
+
+### Screenshots
 * The `RunDetails` widgets shows that run properties and child runs.
  ![hdr1](./Images/hdr1.png)
  ![hdr2](./Images/hdr2.png)
@@ -93,6 +104,11 @@ The model can be further improved by trying out different kernel functions.
 1. Create a json file with the input data
 1. Make a HTTP request to the webservice using the scoring uri to get the results.
 
+### Environment Details
+* The enviroment used for inference is AzureML-Tutorial which is one of the curated environments provided by Azure. Environment files are available in ![Inference_Env](./Inference_Env)
+* Environment files of AutoML environment are available in ![AutoML_Env](./AutoML_Env)
+
+### Screenshots
 * The model has been deployed using Azure Container Instance.
  ![aci1](./Images/aci1.png)
 * The deployed model can be accessed at the REST endpoint using a HTTP request. Application Insights has been enabled.
