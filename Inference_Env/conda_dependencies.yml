@@ -1,0 +1,33 @@
+channels:
+- anaconda
+- conda-forge
+dependencies:
+- python=3.6.2
+- pip:
+  - azureml-core==1.21.0.post1
+  - azureml-defaults==1.21.0
+  - azureml-telemetry==1.21.0
+  - azureml-train-restclients-hyperdrive==1.21.0
+  - azureml-train-core==1.21.0
+  - azureml-widgets==1.21.0
+  - azureml-pipeline-core==1.21.0
+  - azureml-pipeline-steps==1.21.0
+  - azureml-opendatasets==1.21.0
+  - azureml-automl-core==1.21.0
+  - azureml-automl-runtime==1.21.0
+  - azureml-train-automl-client==1.21.0
+  - azureml-train-automl-runtime==1.21.0.post1
+  - azureml-train-automl==1.21.0
+  - azureml-train==1.21.0
+  - azureml-sdk==1.21.0
+  - azureml-interpret==1.21.0
+  - azureml-tensorboard==1.21.0
+  - azureml-mlflow==1.21.0
+  - mlflow
+  - sklearn-pandas
+- pandas
+- numpy
+- tqdm
+- scikit-learn
+- matplotlib
+name: azureml_df6ad66e80d4bc0030b6d046a4e46427
